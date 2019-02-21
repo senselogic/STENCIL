@@ -1,0 +1,271 @@
+<meta charset="utf-8">
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <textarea id="OldText" placeholder="Old text" style="width:48vw;height:50vh"></textarea>
+            </td>
+            <td>
+                <textarea id="NewText" placeholder="New text" style="width:48vw;height:50vh"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <textarea id="OldIdentifierArray" placeholder="Old identifiers" style="width:48vw;height:30vh"></textarea>
+            </td>
+            <td>
+                <textarea id="NewIdentifierArray" placeholder="New identifiers" style="width:48vw;height:30vh"></textarea>
+            </td>
+        </tr>
+        <tr valign="top">
+            <td>
+                <textarea id="CommentArray" style="width:48vw;height:15vh;overflow:auto" readonly>
+                </textarea>
+            </td>
+            <td>
+                <div>
+                    <button style="width:10vw;height:4vh" onclick="Stencil()">Stencil</button>
+                </div>
+                <div>
+                  <input id="OldVariableIsReplaced" type="checkbox">
+                  <label for="OldVariableIsReplaced">variable</label>
+                </div>
+                <div>
+                  <input id="OldAttributeIsReplaced" type="checkbox">
+                  <label for="OldAttributeIsReplaced">Attribute</label>
+                </div>
+                <div>
+                  <input id="OldTypeIsReplaced" type="checkbox">
+                  <label for="OldTypeIsReplaced">TYPE</label>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<script>
+    String.prototype.IsLowerCase = function()
+    {
+        return this == this.toLowerCase();
+    }
+
+    // ~~
+
+    String.prototype.IsUpperCase = function()
+    {
+        return this == this.toUpperCase();
+    }
+
+    // ~~
+
+    String.prototype.IsPascalCase = function()
+    {
+        if ( this.length < 2 )
+        {
+            return false;
+        }
+        else
+        {
+            return (
+                this[ 0 ].IsUpperCase()
+                && this[ 1 ].IsLowerCase()
+                );
+        }
+    }
+
+    // ~~
+
+    String.prototype.ToMinorCase = function()
+    {
+        if ( this.length <= 1 )
+        {
+            return this.toLowerCase();
+        }
+        else
+        {
+            return this[ 0 ].toLowerCase() + this.substring( 1);
+        }
+    }
+
+    // ~~
+
+    String.prototype.ToMajorCase = function()
+    {
+        if ( this.length <= 1 )
+        {
+            return this.toUpperCase();
+        }
+        else
+        {
+            return this[ 0 ].toUpperCase() + this.substring( 1 );
+        }
+    }
+
+    // ~~
+
+    String.prototype.ToSnakeCase = function()
+    {
+        var
+            character,
+            character_index,
+            prior_character,
+            snake_case_text;
+
+        if ( this.length == 0 )
+        {
+            return "";
+        }
+        else
+        {
+            snake_case_text = "";
+            character = "";
+
+            for ( character_index = 0;
+                  character_index < this.length;
+                  ++character_index )
+            {
+                prior_character = character;
+                character = this[ character_index ];
+
+                if ( ( ( prior_character >= 'a' && prior_character <= 'z' )
+                         && ( ( character >= 'A' && character <= 'Z' )
+                              || ( character >= '0' && character <= '9' ) ) )
+                       || ( ( prior_character >= '0' && prior_character <= '9' )
+                            && ( ( character >= 'a' && character <= 'z' )
+                                 || ( character >= 'A' && character <= 'Z' ) ) ) )
+                {
+                    snake_case_text += '_';
+                }
+
+                snake_case_text += character;
+            }
+
+            return snake_case_text.toLowerCase();
+        }
+    }
+
+    // ~~
+
+    String.prototype.ToPascalCase = function()
+    {
+        var
+            word_array,
+            word_index;
+
+        if ( this.length == 0 )
+        {
+            return "";
+        }
+        else
+        {
+            word_array = this.toLowerCase().split( '_' );
+
+            for ( word_index = 0;
+                  word_index < word_array.length;
+                  ++word_index )
+            {
+                word_array[ word_index ] = word_array[ word_index ].ToMajorCase();
+            }
+
+            return word_array.join( "" );
+        }
+    }
+
+    // ~~
+
+    function Stencil()
+    {
+        var
+            comment_array,
+            old_attribute,
+            old_identifier,
+            old_text,
+            old_type,
+            old_variable,
+            new_attribute,
+            new_identifier,
+            new_identifier_array,
+            new_identifier_index,
+            new_text,
+            new_type,
+            new_variable;
+
+        old_text = document.getElementById( "OldText" ).value;
+        old_identifier_array = document.getElementById( "OldIdentifierArray" ).value.trimRight().split( '\n' );
+        new_identifier_array = document.getElementById( "NewIdentifierArray" ).value.trimRight().split( '\n' );
+        new_text_array = [];
+        comment_array = [];
+
+        while ( new_identifier_array.length >= old_identifier_array.length )
+        {
+            new_text = old_text;
+
+            for ( old_identifier_index = 0;
+                  old_identifier_index < old_identifier_array.length;
+                  ++old_identifier_index )
+            {
+                old_identifier = old_identifier_array[ old_identifier_index ];
+                new_identifier = new_identifier_array.shift();
+
+                if ( document.getElementById( "OldVariableIsReplaced" ).checked
+                     || document.getElementById( "OldAttributeIsReplaced" ).checked
+                     || document.getElementById( "OldTypeIsReplaced" ).checked )
+                {
+                    if ( old_identifier.IsPascalCase() )
+                    {
+                        old_attribute = old_identifier;
+                        old_variable = old_attribute.ToSnakeCase();
+                        old_type = old_variable.toUpperCase();
+                    }
+                    else
+                    {
+                        old_variable = old_identifier.toLowerCase();
+                        old_attribute = old_variable.ToPascalCase();
+                        old_type = old_variable.toUpperCase();
+                    }
+
+                    if ( new_identifier.IsPascalCase() )
+                    {
+                        new_attribute = new_identifier;
+                        new_variable = new_attribute.ToSnakeCase();
+                        new_type = new_variable.toUpperCase();
+                    }
+                    else
+                    {
+                        new_variable = new_identifier.toLowerCase();
+                        new_attribute = new_variable.ToPascalCase();
+                        new_type = new_variable.toUpperCase();
+                    }
+
+                    if ( document.getElementById( "OldVariableIsReplaced" ).checked )
+                    {
+                        new_text = new_text.split( old_variable ).join( new_variable );
+                        comment_array.push( old_variable + " => " + new_variable );
+                    }
+
+                    if ( document.getElementById( "OldAttributeIsReplaced" ).checked )
+                    {
+                        new_text = new_text.split( old_attribute ).join( new_attribute );
+                        comment_array.push( old_attribute + " => " + new_attribute );
+                    }
+
+                    if ( document.getElementById( "OldTypeIsReplaced" ).checked )
+                    {
+                        new_text = new_text.split( old_type ).join( new_type );
+                        comment_array.push( old_type + " => " + new_type );
+                    }
+                }
+                else
+                {
+                    new_text = old_text.split( old_identifier ).join( new_identifier );
+                    comment_array.push( old_identifier + " => " + new_identifier );
+                }
+            }
+
+            new_text_array.push( new_text );
+            comment_array.push( "" );
+        }
+
+        document.getElementById( "NewText" ).value = new_text_array.join( '\n' );
+        document.getElementById( "CommentArray" ).value = comment_array.join( '\n' ).trimRight();
+    }
+</script>
