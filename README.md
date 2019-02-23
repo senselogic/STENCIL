@@ -17,7 +17,7 @@ void AddUser(
 {
     if ( user != null )
     {
-        DATABASE.GetInstance.AddUser( user );
+        DATABASE.GetInstance().AddUser( user );
     }
 }
 
@@ -42,7 +42,7 @@ void AddArticle(
 {
     if ( article != null )
     {
-        DATABASE.GetInstance.AddArticle( article );
+        DATABASE.GetInstance().AddArticle( article );
     }
 }
 
@@ -54,7 +54,7 @@ void AddSection(
 {
     if ( section != null )
     {
-        DATABASE.GetInstance.AddSection( section );
+        DATABASE.GetInstance().AddSection( section );
     }
 }
 
@@ -66,7 +66,7 @@ void AddComment(
 {
     if ( comment != null )
     {
-        DATABASE.GetInstance.AddComment( comment );
+        DATABASE.GetInstance().AddComment( comment );
     }
 }
 
