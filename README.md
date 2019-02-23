@@ -2,11 +2,11 @@
 
 # Stencil
 
-Repeated code generator.
+Code instantiator.
 
 ## Description
 
-Stencil quickly generate code variants from a reference version, by replacing its types, attributes and variables.
+Stencil instantiates code variations from a reference implementation.
 
 ## Sample input
 
