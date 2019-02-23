@@ -25,12 +25,9 @@ void AddUser(
 
 ```
 ```
-User
-```
-```
-Article
-Section
-Comment
+User => Article
+        Section
+        Comment
 ```
 
 ## Sample output
