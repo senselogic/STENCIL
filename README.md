@@ -6,7 +6,7 @@ Repeated code generator.
 
 ## Description
 
-Stencil allows to quickly generate similar code from an example, by replacing some of its types, attributes and variables.
+Stencil generate code variants from a reference version, by replacing its types, attributes and variables.
 
 ## Version
 
