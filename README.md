@@ -6,7 +6,7 @@ Code instantiator.
 
 ## Description
 
-Stencil instantiates code variations from a reference implementation.
+Stencil instantiates code variations based on a reference implementation.
 
 ## Sample input
 
