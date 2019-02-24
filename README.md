@@ -6,7 +6,7 @@ Interactive code instantiator.
 
 ## Description
 
-Stencil instantiates code variations based on a reference implementation.
+Stencil interactively instantiates code variations based on a reference implementation.
 
 ## Sample input
 
