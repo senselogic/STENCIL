@@ -2,7 +2,7 @@
 
 # Stencil
 
-Interactive code instantiator.
+Code instantiator.
 
 ## Description
 
