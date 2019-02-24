@@ -8,7 +8,7 @@ Code instantiator.
 
 Stencil interactively instantiates code variations based on a reference implementation.
 
-## Sample input
+## Sample
 
 ```
 void AddUser(
@@ -22,16 +22,13 @@ void AddUser(
 }
 
 // ~~
-
 ```
 ```
 User => Article
         Section
         Comment
 ```
-
-## Sample output
-
+Result:
 ```
 void AddArticle(
     ARTICLE article

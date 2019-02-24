@@ -1,43 +1,52 @@
 <meta charset="utf-8">
+<style>
+    *
+    {
+        padding : 0;
+        margin : 0;
+    }
+
+    input[ type=checkbox ]
+    {
+        transform : scale( 0.8 );
+        margin-right : 0.2rem;
+    }
+</style>
 <table>
     <tbody>
         <tr>
             <td>
-                <textarea id="OldText" placeholder="Old text" style="width:48vw;height:50vh"></textarea>
+                <textarea id="OldText" placeholder="Old text" style="width:49vw;height:65vh"></textarea>
             </td>
             <td>
-                <textarea id="NewText" placeholder="New text" style="width:48vw;height:50vh"></textarea>
+                <textarea id="NewText" placeholder="New text" style="width:49vw;height:65vh"></textarea>
             </td>
         </tr>
         <tr>
             <td>
-                <textarea id="OldIdentifierArray" placeholder="Old identifiers" style="width:48vw;height:30vh"></textarea>
+                <textarea id="OldIdentifierArray" placeholder="Old identifiers" style="width:49vw;height:15vh"></textarea>
             </td>
             <td>
-                <textarea id="NewIdentifierArray" placeholder="New identifiers" style="width:48vw;height:30vh"></textarea>
+                <textarea id="NewIdentifierArray" placeholder="New identifiers" style="width:49vw;height:15vh"></textarea>
             </td>
         </tr>
         <tr valign="top">
             <td>
-                <textarea id="CommentArray" style="width:48vw;height:15vh;overflow:auto" readonly>
-                </textarea>
+                <div>
+                    <button onclick="Stencil()" style="font-size:2vh">Stencil</button>
+                </div>
+                <div style="font-size:1.5vh">
+                  <input id="OldVariableIsReplaced" type="checkbox" checked="checked"/>variable
+                </div>
+                <div style="font-size:1.5vh">
+                  <input id="OldAttributeIsReplaced" type="checkbox" checked="checked"/>Attribute
+                </div>
+                <div style="font-size:1.5vh">
+                  <input id="OldTypeIsReplaced" type="checkbox" checked="checked"/>TYPE
+                </div>
             </td>
             <td>
-                <div>
-                    <button style="width:10vw;height:4vh" onclick="Stencil()">Stencil</button>
-                </div>
-                <div>
-                  <input id="OldVariableIsReplaced" type="checkbox">
-                  <label for="OldVariableIsReplaced">variable</label>
-                </div>
-                <div>
-                  <input id="OldAttributeIsReplaced" type="checkbox">
-                  <label for="OldAttributeIsReplaced">Attribute</label>
-                </div>
-                <div>
-                  <input id="OldTypeIsReplaced" type="checkbox">
-                  <label for="OldTypeIsReplaced">TYPE</label>
-                </div>
+                <textarea id="CommentArray" style="width:49vw;height:16vh;overflow:auto;font-size:1vh" readonly></textarea>
             </td>
         </tr>
     </tbody>
