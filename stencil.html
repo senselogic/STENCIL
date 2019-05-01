@@ -6,6 +6,11 @@
         margin : 0;
     }
 
+    table
+    {
+        border-collapse : collapse;
+    }
+
     input[ type=checkbox ]
     {
         transform : scale( 0.8 );
@@ -14,19 +19,12 @@
 </style>
 <table>
     <tbody>
-        <tr>
-            <td>
-                <textarea id="OldIdentifierArray" placeholder="Old identifiers" style="width:49vw;height:15vh"></textarea>
-            </td>
-            <td>
-                <textarea id="NewIdentifierArray" placeholder="New identifiers" style="width:49vw;height:15vh"></textarea>
-            </td>
-        </tr>
         <tr valign="top">
             <td>
-                <div>
-                    <textarea id="CommentArray" style="width:49vw;height:16vh;overflow:auto;font-size:1vh" readonly></textarea>
-                </div>
+                <textarea id="OldIdentifierArray" placeholder="Old identifiers" style="width:25vw;height:15vh"></textarea>
+            </td>
+            <td>
+                <textarea id="NewIdentifierArray" placeholder="New identifiers" style="width:25vw;height:15vh"></textarea>
             </td>
             <td>
                 <div>
@@ -44,80 +42,92 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="2">
                 <div>
-                    <textarea id="OldText" placeholder="Old text" style="width:49vw;height:65vh"></textarea>
+                    <textarea id="OldText" placeholder="Old text" style="width:50vw;height:85vh"></textarea>
                 </div>
             </td>
             <td>
                 <div>
-                    <textarea id="NewText" placeholder="New text" style="width:49vw;height:65vh"></textarea>
+                    <textarea id="NewText" placeholder="New text" style="width:50vw;height:85vh"></textarea>
                 </div>
             </td>
         </tr>
     </tbody>
 </table>
 <script>
-    String.prototype.IsLowerCase = function()
+    function IsLowerCase(
+        text
+        )
     {
-        return this == this.toLowerCase();
+        return text == text.toLowerCase();
     }
 
     // ~~
 
-    String.prototype.IsUpperCase = function()
+    function IsUpperCase(
+        text
+        )
     {
-        return this == this.toUpperCase();
+        return text == text.toUpperCase();
     }
 
     // ~~
 
-    String.prototype.IsPascalCase = function()
+    function IsPascalCase(
+        text
+        )
     {
-        if ( this.length < 2 )
+        if ( text.length < 2 )
         {
             return false;
         }
         else
         {
             return (
-                this[ 0 ].IsUpperCase()
-                && this[ 1 ].IsLowerCase()
+                IsUpperCase( text[ 0 ] )
+                && IsLowerCase( text[ 1 ] )
                 );
         }
     }
 
     // ~~
 
-    String.prototype.ToMinorCase = function()
+    function GetMinorCase(
+        text
+        )
     {
-        if ( this.length <= 1 )
+        if ( text.length <= 1 )
         {
-            return this.toLowerCase();
+            return text.toLowerCase();
         }
         else
         {
-            return this[ 0 ].toLowerCase() + this.substring( 1);
+            return text[ 0 ].toLowerCase() + text.substring( 1);
         }
     }
 
     // ~~
 
-    String.prototype.ToMajorCase = function()
+    function GetMajorCase(
+        text
+        )
     {
-        if ( this.length <= 1 )
+        if ( text.length <= 1 )
         {
-            return this.toUpperCase();
+            return text.toUpperCase();
         }
         else
         {
-            return this[ 0 ].toUpperCase() + this.substring( 1 );
+            return text[ 0 ].toUpperCase() + text.substring( 1 );
         }
     }
 
     // ~~
 
-    String.prototype.ToSnakeCase = function()
+    function GetSnakeCase(
+        text
+        )
     {
         var
             character,
@@ -125,7 +135,7 @@
             prior_character,
             snake_case_text;
 
-        if ( this.length == 0 )
+        if ( text.length == 0 )
         {
             return "";
         }
@@ -135,11 +145,11 @@
             character = "";
 
             for ( character_index = 0;
-                  character_index < this.length;
+                  character_index < text.length;
                   ++character_index )
             {
                 prior_character = character;
-                character = this[ character_index ];
+                character = text[ character_index ];
 
                 if ( ( ( prior_character >= 'a' && prior_character <= 'z' )
                          && ( ( character >= 'A' && character <= 'Z' )
@@ -160,25 +170,27 @@
 
     // ~~
 
-    String.prototype.ToPascalCase = function()
+    function GetPascalCase(
+        text
+        )
     {
         var
             word_array,
             word_index;
 
-        if ( this.length == 0 )
+        if ( text.length == 0 )
         {
             return "";
         }
         else
         {
-            word_array = this.toLowerCase().split( '_' );
+            word_array = text.toLowerCase().split( '_' );
 
             for ( word_index = 0;
                   word_index < word_array.length;
                   ++word_index )
             {
-                word_array[ word_index ] = word_array[ word_index ].ToMajorCase();
+                word_array[ word_index ] = GetMajorCase( word_array[ word_index ] );
             }
 
             return word_array.join( "" );
@@ -187,28 +199,34 @@
 
     // ~~
 
-    function Stencil()
+    function GetNewText(
+        old_text,
+        old_identifier_text,
+        old_variable_is_replaced,
+        old_attribute_is_replaced,
+        old_type_is_replaced,
+        new_identifier_text
+        )
     {
         var
-            comment_array,
             old_attribute,
             old_identifier,
-            old_text,
+            old_identifier_array,
+            old_identifier_index,
             old_type,
             old_variable,
             new_attribute,
             new_identifier,
             new_identifier_array,
-            new_identifier_index,
             new_text,
+            new_text_array,
             new_type,
             new_variable;
 
-        old_text = document.getElementById( "OldText" ).value;
-        old_identifier_array = document.getElementById( "OldIdentifierArray" ).value.trimRight().split( '\n' );
-        new_identifier_array = document.getElementById( "NewIdentifierArray" ).value.trimRight().split( '\n' );
+        old_identifier_array = old_identifier_text.trimRight().split( '\n' );
+        new_identifier_array = new_identifier_text.trimRight().split( '\n' );
+
         new_text_array = [];
-        comment_array = [];
 
         while ( new_identifier_array.length >= old_identifier_array.length )
         {
@@ -221,66 +239,94 @@
                 old_identifier = old_identifier_array[ old_identifier_index ];
                 new_identifier = new_identifier_array.shift();
 
-                if ( document.getElementById( "OldVariableIsReplaced" ).checked
-                     || document.getElementById( "OldAttributeIsReplaced" ).checked
-                     || document.getElementById( "OldTypeIsReplaced" ).checked )
+                if ( old_variable_is_replaced
+                     || old_attribute_is_replaced
+                     || old_type_is_replaced )
                 {
-                    if ( old_identifier.IsPascalCase() )
+                    if ( IsPascalCase( old_identifier ) )
                     {
                         old_attribute = old_identifier;
-                        old_variable = old_attribute.ToSnakeCase();
+                        old_variable = GetSnakeCase( old_attribute );
                         old_type = old_variable.toUpperCase();
                     }
                     else
                     {
                         old_variable = old_identifier.toLowerCase();
-                        old_attribute = old_variable.ToPascalCase();
+                        old_attribute = GetPascalCase( old_variable );
                         old_type = old_variable.toUpperCase();
                     }
 
-                    if ( new_identifier.IsPascalCase() )
+                    if ( IsPascalCase( new_identifier ) )
                     {
                         new_attribute = new_identifier;
-                        new_variable = new_attribute.ToSnakeCase();
+                        new_variable = GetSnakeCase( new_attribute );
                         new_type = new_variable.toUpperCase();
                     }
                     else
                     {
                         new_variable = new_identifier.toLowerCase();
-                        new_attribute = new_variable.ToPascalCase();
+                        new_attribute = GetPascalCase( new_variable );
                         new_type = new_variable.toUpperCase();
                     }
 
-                    if ( document.getElementById( "OldVariableIsReplaced" ).checked )
+                    if ( old_variable_is_replaced )
                     {
                         new_text = new_text.split( old_variable ).join( new_variable );
-                        comment_array.push( old_variable + " => " + new_variable );
                     }
 
-                    if ( document.getElementById( "OldAttributeIsReplaced" ).checked )
+                    if ( old_attribute_is_replaced )
                     {
                         new_text = new_text.split( old_attribute ).join( new_attribute );
-                        comment_array.push( old_attribute + " => " + new_attribute );
                     }
 
-                    if ( document.getElementById( "OldTypeIsReplaced" ).checked )
+                    if ( old_type_is_replaced )
                     {
                         new_text = new_text.split( old_type ).join( new_type );
-                        comment_array.push( old_type + " => " + new_type );
                     }
                 }
                 else
                 {
                     new_text = new_text.split( old_identifier ).join( new_identifier );
-                    comment_array.push( old_identifier + " => " + new_identifier );
                 }
             }
 
             new_text_array.push( new_text );
-            comment_array.push( "" );
         }
 
-        document.getElementById( "NewText" ).value = new_text_array.join( "" );
-        document.getElementById( "CommentArray" ).value = comment_array.join( '\n' ).trimRight();
+        return new_text_array.join( "" );
+    }
+
+    // ~~
+
+    function Stencil()
+    {
+        var
+            new_identifier_text,
+            new_text,
+            old_attribute_is_replaced,
+            old_identifier_text,
+            old_text,
+            old_type_is_replaced,
+            old_variable_is_replaced;
+
+        old_text = document.getElementById( "OldText" ).value;
+        old_identifier_text = document.getElementById( "OldIdentifierArray" ).value;
+        new_identifier_text = document.getElementById( "NewIdentifierArray" ).value;
+
+        old_variable_is_replaced = document.getElementById( "OldVariableIsReplaced" ).checked;
+        old_attribute_is_replaced = document.getElementById( "OldAttributeIsReplaced" ).checked;
+        old_type_is_replaced = document.getElementById( "OldTypeIsReplaced" ).checked;
+
+        new_text
+            = GetNewText(
+                old_text,
+                old_identifier_text,
+                old_variable_is_replaced,
+                old_attribute_is_replaced,
+                old_type_is_replaced,
+                new_identifier_text
+                );
+
+        document.getElementById( "NewText" ).value = new_text;
     }
 </script>

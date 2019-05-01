@@ -1,0 +1,18 @@
+{
+    "name": "senselogic.brackets.stencil",
+    "title": "Stencil",
+    "description": "Brackets extension that instantiates code variations based on a reference implementation.",
+    "homepage": "https://github.com/senselogic/brackets-stencil",
+    "version": "1.0.0",
+    "author": "Eric Pelzer (https://github.com/senselogic)",
+    "license": "GPL",
+    "engines": {
+        "brackets": ">=1.13.x"
+    },
+    "keywords": [
+        "stencil"
+    ],
+    "categories": [
+        "editing"
+    ]
+}

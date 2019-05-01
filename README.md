@@ -10,6 +10,22 @@ Stencil interactively instantiates code variations based on a reference implemen
 
 ## Sample
 
+### Old identifiers
+
+```
+User
+```
+
+### New identifiers
+
+```
+Article
+Section
+Comment
+```
+
+### Old text
+
 ```
 void AddUser(
     USER user
@@ -24,12 +40,9 @@ void AddUser(
 // ~~
 
 ```
-```
-User => Article
-        Section
-        Comment
-```
-Result:
+
+### New text
+
 ```
 void AddArticle(
     ARTICLE article
@@ -68,6 +81,24 @@ void AddComment(
 // ~~
 
 ```
+
+## Standalone tool
+
+*   Open `stencil.html` in a web browser
+*   Type the **old identifiers**
+*   Type the **new identifiers**
+*   Paste the **old text**
+*   Click on `Stencil`
+
+## Brackets extension
+
+*   Install the `stencil` extension in the extension
+*   Select the **old identifiers**
+*   Press `Ctrl-Alt-A`
+*   Select the **new identifiers**
+*   Press `Ctrl-Alt-Z`
+*   Select the **old text**
+*   Press `Ctrl-Alt-Q`
 
 ## Version
 
