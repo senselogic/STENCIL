@@ -10,13 +10,13 @@ Stencil interactively instantiates code variations based on a reference implemen
 
 ## Sample
 
-### Old identifiers
+Old identifiers :
 
 ```
 User
 ```
 
-### New identifiers
+New identifiers :
 
 ```
 Article
@@ -24,7 +24,7 @@ Section
 Comment
 ```
 
-### Old text
+Old text :
 
 ```
 void AddUser(
@@ -41,7 +41,7 @@ void AddUser(
 
 ```
 
-### New text
+New text :
 
 ```
 void AddArticle(
@@ -89,6 +89,7 @@ void AddComment(
 *   Type the **new identifiers**
 *   Paste the **old text**
 *   Click on `Stencil`
+*   Copy the **new text**
 
 ## Brackets extension
 
