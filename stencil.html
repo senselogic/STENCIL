@@ -16,14 +16,6 @@
     <tbody>
         <tr>
             <td>
-                <textarea id="OldText" placeholder="Old text" style="width:49vw;height:65vh"></textarea>
-            </td>
-            <td>
-                <textarea id="NewText" placeholder="New text" style="width:49vw;height:65vh"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <textarea id="OldIdentifierArray" placeholder="Old identifiers" style="width:49vw;height:15vh"></textarea>
             </td>
             <td>
@@ -31,6 +23,11 @@
             </td>
         </tr>
         <tr valign="top">
+            <td>
+                <div>
+                    <textarea id="CommentArray" style="width:49vw;height:16vh;overflow:auto;font-size:1vh" readonly></textarea>
+                </div>
+            </td>
             <td>
                 <div>
                     <button onclick="Stencil()" style="font-size:2vh">Stencil</button>
@@ -45,8 +42,17 @@
                   <input id="OldTypeIsReplaced" type="checkbox" checked="checked"/>TYPE
                 </div>
             </td>
+        </tr>
+        <tr>
             <td>
-                <textarea id="CommentArray" style="width:49vw;height:16vh;overflow:auto;font-size:1vh" readonly></textarea>
+                <div>
+                    <textarea id="OldText" placeholder="Old text" style="width:49vw;height:65vh"></textarea>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <textarea id="NewText" placeholder="New text" style="width:49vw;height:65vh"></textarea>
+                </div>
             </td>
         </tr>
     </tbody>
@@ -274,7 +280,7 @@
             comment_array.push( "" );
         }
 
-        document.getElementById( "NewText" ).value = new_text_array.join( '\n' );
+        document.getElementById( "NewText" ).value = new_text_array.join( "" );
         document.getElementById( "CommentArray" ).value = comment_array.join( '\n' ).trimRight();
     }
 </script>
