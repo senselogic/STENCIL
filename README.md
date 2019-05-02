@@ -19,6 +19,7 @@ User
 New identifiers :
 
 ```
+User
 Article
 Section
 Comment
@@ -44,6 +45,18 @@ void AddUser(
 New text :
 
 ```
+void AddUser(
+    USER user
+    )
+{
+    if ( user != null )
+    {
+        DATABASE.GetInstance().AddUser( user );
+    }
+}
+
+// ~~
+
 void AddArticle(
     ARTICLE article
     )
@@ -93,7 +106,7 @@ void AddComment(
 
 ## Brackets extension
 
-*   Install the `stencil` extension in the extension
+*   Install the `stencil` extension
 *   Select the **old identifiers**
 *   Press `Ctrl-Alt-A`
 *   Select the **new identifiers**
