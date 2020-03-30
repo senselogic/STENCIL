@@ -39,6 +39,9 @@
                 <div style="font-size:1.5vh">
                     <input id="OldTypeIsReplaced" type="checkbox" checked="checked"/>TYPE
                 </div>
+                <div style="font-size:1.5vh">
+                    <input id="NewTextIsCopied" type="checkbox" checked="checked"/>Copied
+                </div>
             </td>
         </tr>
         <tr>
@@ -303,6 +306,8 @@
         var
             new_identifier_text,
             new_text,
+            new_text_element,
+            new_text_is_copied,
             old_attribute_is_replaced,
             old_identifier_text,
             old_text,
@@ -316,6 +321,7 @@
         old_variable_is_replaced = document.getElementById( "OldVariableIsReplaced" ).checked;
         old_attribute_is_replaced = document.getElementById( "OldAttributeIsReplaced" ).checked;
         old_type_is_replaced = document.getElementById( "OldTypeIsReplaced" ).checked;
+        new_text_is_copied = document.getElementById( "NewTextIsCopied" ).checked;
 
         new_text
             = GetNewText(
@@ -327,6 +333,14 @@
                 new_identifier_text
                 );
 
-        document.getElementById( "NewText" ).value = new_text;
+        new_text_element = document.getElementById( "NewText" );
+        new_text_element.value = new_text;
+
+        if ( new_text_is_copied )
+        {
+            new_text_element.focus();
+            new_text_element.setSelectionRange( 0, new_text.length );
+            document.execCommand( "copy" );
+        }
     }
 </script>
